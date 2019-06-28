@@ -25,3 +25,16 @@ API endpoint for POST request:  *DOMAIN/api/v1/events*<br/>
 } 
 ```
 Please set up your weekly_recurring boolean to true if unavailability will occur weekly.
+
+API endpoint for UPDATE request:  *DOMAIN/api/v1/events/EVENT_ID*<br/>
+
+Simple send your new information to an existing event with event ID
+
+```javascript
+{
+"starts_at" : "2019-08-03T10:50:46.708Z",
+"ends_at" : "2019-08-04T10:50:46.708Z",
+"kind" : "sick", // Kind can be opening, appointment, sick, group or whole
+"weekly_recurring" : false
+} 
+```
