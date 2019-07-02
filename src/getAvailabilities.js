@@ -1,16 +1,16 @@
 import moment from "moment";
 import knex from "knexClient";
 
-export default async function getAvailabilities(date) {
+export default async function getAvailabilities(date, numberOfDays) { // Add numberOfDays will be given by user
   const availabilities = new Map();
-  for (let i = 0; i < 7; ++i) {
+  for (let i = 0; i < numberOfDays; ++i) {
     const tmpDate = moment(date).add(i, "days");
     availabilities.set(tmpDate.format("d"), {
       date: tmpDate.toDate(),
       slots: []
     });
-  }
-
+  }  
+  
   const events = await knex
     .select("kind", "starts_at", "ends_at", "weekly_recurring")
     .from("events")
@@ -27,7 +27,13 @@ export default async function getAvailabilities(date) {
       const day = availabilities.get(date.format("d"));
       if (event.kind === "opening") {
         day.slots.push(date.format("H:mm"));
-      } else if (event.kind === "appointment") {  // buraya or person_leave, group leave (give me group ID), company leave (national holiday etc), 
+      } else if (
+        // I created 3 extra kinds of events, if it is needed data can be shown/filter by its group
+        event.kind === "appointment" ||   
+        event.kind === "sick" ||
+        event.kind === "group" ||
+        event.kind === "holiday"
+      ) {   
         day.slots = day.slots.filter(
           slot => slot.indexOf(date.format("H:mm")) === -1
         );
@@ -35,5 +41,6 @@ export default async function getAvailabilities(date) {
     }
   }
 
+  
   return Array.from(availabilities.values())
 }
