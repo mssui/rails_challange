@@ -6,9 +6,9 @@ describe("getAvailabilities", () => {
 
   describe("case 1", () => {
     it("test 1", async () => {
-      const availabilities = await getAvailabilities(new Date("2014-08-10"));
-      expect(availabilities.length).toBe(7);
-      for (let i = 0; i < 7; ++i) {
+      const availabilities = await getAvailabilities(new Date("2014-08-10"),10); // Added numberOfDays
+      expect(availabilities.length).toBe(10);
+      for (let i = 0; i < 10; ++i) {
         expect(availabilities[i].slots).toEqual([]);
       }
     });
@@ -32,8 +32,8 @@ describe("getAvailabilities", () => {
     });
 
     it("test 1", async () => {
-      const availabilities = await getAvailabilities(new Date("2014-08-10"));
-      expect(availabilities.length).toBe(7);
+      const availabilities = await getAvailabilities(new Date("2014-08-10"),15); // Added numberOfDays
+      expect(availabilities.length).toBe(15);
 
       expect(String(availabilities[0].date)).toBe(
         String(new Date("2014-08-10"))
@@ -47,7 +47,7 @@ describe("getAvailabilities", () => {
         "9:30",
         "10:00",
         "11:30",
-        "14:00"
+        "14:00"   // Corrected
       ]);
 
       expect(String(availabilities[6].date)).toBe(
@@ -74,8 +74,8 @@ describe("getAvailabilities", () => {
     });
 
     it("test 1", async () => {
-      const availabilities = await getAvailabilities(new Date("2014-08-10"));
-      expect(availabilities.length).toBe(7);
+      const availabilities = await getAvailabilities(new Date("2014-08-10"), 12); // Added numberOfDays
+      expect(availabilities.length).toBe(12);
 
       expect(String(availabilities[0].date)).toBe(
         String(new Date("2014-08-10"))
